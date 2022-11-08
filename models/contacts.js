@@ -7,7 +7,6 @@ const {
   changeFavoriteStatusService
 } = require("../service/contacts")
 
-
 // GET ALL
 const listContacts = async (req, res, next) => {
   try {
@@ -132,6 +131,7 @@ const changeFavoriteStatus = async (req, res, next) => {
     });
   }  
 }
+
 
 
 module.exports = {
