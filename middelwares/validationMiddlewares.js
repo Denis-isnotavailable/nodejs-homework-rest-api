@@ -16,7 +16,9 @@ function postDataValidation(req, res, next) {
       .pattern(new RegExp('^[-+0-9]{5,20}$'))
       .min(7)
       .max(15)
-      .required()
+      .required(),
+    
+    favorite: Joi.boolean()
   });
   const { error } = schema.validate(req.body);
 
@@ -41,7 +43,9 @@ function putDataValidation (req, res, next) {
 
     phone: Joi.string()
       .pattern(new RegExp('^[-+0-9]{5,20}$'))     
-      .optional()
+      .optional(),
+    
+    favorite: Joi.boolean()
   });
   const { error } = schema.validate(req.body);
 
