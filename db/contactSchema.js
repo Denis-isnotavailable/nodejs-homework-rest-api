@@ -15,10 +15,15 @@ const contactSchema = new mongoose.Schema({
       type: Boolean,
       default: false,
     },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'Users'
+    }
 }, { versionKey: false, timestamps: true },
 );
 
-const Contact = mongoose.model('contact', contactSchema);
+const Contact = mongoose.model('Contact', contactSchema);
 
 module.exports = {
   Contact

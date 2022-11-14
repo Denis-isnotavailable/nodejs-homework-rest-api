@@ -57,7 +57,30 @@ function putDataValidation (req, res, next) {
   next();
 }
 
+function authValidation(req, res, next) {
+  const schema = Joi.object({
+    password: Joi.string()      
+      .min(6)
+      .required(),
+
+    email: Joi.string()
+      .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
+      .required()
+  });
+  const { error } = schema.validate(req.body);
+
+  if (error) {
+    return res.status(400).json({
+      status: "400 Bad Request",
+      message: error.details
+    });
+  }
+
+  next();
+}
+
 module.exports = {
-    postDataValidation,
-    putDataValidation
+  postDataValidation,
+  putDataValidation,
+  authValidation
 }
