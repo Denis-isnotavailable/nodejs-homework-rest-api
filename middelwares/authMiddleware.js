@@ -1,7 +1,8 @@
 const jwt = require('jsonwebtoken');
+const { User } = require('../db/userSchema');
 const { NotAuthorizedError } = require("../helpers/error");
 
-const authMiddleware = (req, res, next) => {
+const authMiddleware = async (req, res, next) => {
     try {
         const { authorization } = req.headers;
         
@@ -15,14 +16,22 @@ const authMiddleware = (req, res, next) => {
             next(new NotAuthorizedError('Please, provide a token'));
         }
 
-        const user = jwt.decode(token, process.env.JWT_SECRET);
+        const userAuth = jwt.decode(token, process.env.JWT_SECRET);
 
-        if (!user) {
+        if (!userAuth) {
             next(new NotAuthorizedError('User is not defind'));
         }
 
+        const id = userAuth._id;
+        const user = await User.findOne({ id });      
+        const userToken = user.token;
+
+        if (token !== userToken) {
+            next(new NotAuthorizedError('Not authorized'))
+        }
+
         req.token = token;
-        req.user = user;
+        req.user = userAuth;
         next();
 
     } catch (e) {

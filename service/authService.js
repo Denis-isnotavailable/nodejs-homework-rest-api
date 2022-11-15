@@ -57,10 +57,20 @@ const logout = async (authorization) => {
     return token;
 }
 
+const current = async (id) => {
+    const user = await User.findOne({ id }); 
+
+    return {
+        email: user.email,
+        subscription: user.subscription
+    };
+}
+
 
 
 module.exports = {
     registration,
     login,
-    logout
+    logout,
+    current
 }

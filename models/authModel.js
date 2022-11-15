@@ -1,4 +1,4 @@
-const { registration, login, logout } = require("../service/authService");
+const { registration, login, logout, current } = require("../service/authService");
 
 
 // Registration
@@ -36,11 +36,28 @@ const userLogoutModel = async (req, res, next) => {
     const { authorization } = req.headers;
     
     try {
-        const token = await logout(authorization);
-        // console.log(req.token);
-        // console.log(req.user);        
+        await logout(authorization);
+               
+        res.json.status(204)({
+            status: "No content",
+            code: "204"
+        });
+    } catch (e) {
+        next(e);
+    }
+}
+
+// Get current 
+const currentModel = async (req, res, next) => {    
+    const id = req.user._id;
+    try {        
+        const user = await current(id);
+               
         res.json({
-            authorization: `Bearer ${token}`
+            status: "Success",
+            data: {
+                user
+            }
         });
     } catch (e) {
         next(e);
@@ -51,5 +68,6 @@ const userLogoutModel = async (req, res, next) => {
 module.exports = {
     userRegistrationModel,
     userLoginModel,
-    userLogoutModel
+    userLogoutModel,
+    currentModel
 }

@@ -13,10 +13,11 @@ const logoutMiddleware = async (req, res, next) => {
         const [, token] = authorization.split(' ');
         const userAuth = jwt.decode(token, process.env.JWT_SECRET);
         const id = userAuth._id;
-        const user = await User.findOne({ id });        
+        const user = await User.findOne({ id });      
         const userToken = user.token;
-        const u = req.user;
-        console.log(u);
+        
+        console.log("userToken ---", userToken);
+        console.log("token ---", token);
         
         if (!token) {
             next(new NotAuthorizedError('Please, provide a token'));

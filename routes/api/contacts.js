@@ -17,11 +17,13 @@ const {
 
 const router = express.Router();
 
-router.get('/', authMiddleware, listContacts);
-router.get('/:contactId', authMiddleware, getContactById);
-router.post('/', authMiddleware, postDataValidation, addContact);
-router.delete('/:contactId', authMiddleware, removeContact);
-router.put('/:contactId', authMiddleware, putDataValidation, updateContact);
-router.patch('/:contactId/favorite', authMiddleware, changeFavoriteStatus);
+router.use(authMiddleware);
+
+router.get('/', listContacts);
+router.get('/:contactId', getContactById);
+router.post('/', postDataValidation, addContact);
+router.delete('/:contactId', removeContact);
+router.put('/:contactId', putDataValidation, updateContact);
+router.patch('/:contactId/favorite', changeFavoriteStatus);
 
 module.exports = router;

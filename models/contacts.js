@@ -10,8 +10,12 @@ const {
 // GET ALL
 const listContacts = async (req, res, next) => {
   try {
-    const userId = req.user._id;    
-    const contacts = await getAllContactsService(userId);    
+    const userId = req.user._id;
+    const { page, limit, favorite } = req.query;    
+    console.log("query ", page, limit);
+    console.log("favorite ", favorite);
+
+    const contacts = await getAllContactsService(userId, page, limit, favorite);   
     
     res.json({ status: 'success', contacts });
 
