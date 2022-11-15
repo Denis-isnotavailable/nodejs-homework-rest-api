@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { User } = require("../db/userSchema");
-const { RegistrationError, NotAuthorizedError } = require("../helpers/error");
+const { RegistrationError, NotAuthorizedError, WrongParametrsError } = require("../helpers/error");
 
 const registration = async (email, password) => {
     const user = await User.findOne({ email });
@@ -67,10 +67,26 @@ const current = async (id) => {
 }
 
 
+const subscriptionUpdate = async (id, subscription) => {    
+    const index = ["starter", "pro", "business"].indexOf(subscription);
+
+    if (index === -1) {
+        throw new WrongParametrsError("Subscription have to be one of 'starter', 'pro', 'business'");
+    }
+
+    return User.findByIdAndUpdate(
+        { _id: id },
+        { subscription },
+        { new: true })
+        .select({ email: 1, subscription: 1 });
+}
+
+
 
 module.exports = {
     registration,
     login,
     logout,
-    current
+    current,
+    subscriptionUpdate
 }

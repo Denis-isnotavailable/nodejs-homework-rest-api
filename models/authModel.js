@@ -1,4 +1,4 @@
-const { registration, login, logout, current } = require("../service/authService");
+const { registration, login, logout, current, subscriptionUpdate } = require("../service/authService");
 
 
 // Registration
@@ -64,10 +64,28 @@ const currentModel = async (req, res, next) => {
     }
 }
 
+// SubscriptionUpdate
+const subscriptionUpdateModel = async (req, res, next) => {
+    const id = req.user._id;
+    const { subscription } = req.body;
+    try {        
+        const user = await subscriptionUpdate(id, subscription);
+               
+        res.json({
+            status: "Success",
+            data: {
+                user
+            }
+        });
+    } catch (e) {
+        next(e);
+    }
+}
 
 module.exports = {
     userRegistrationModel,
     userLoginModel,
     userLogoutModel,
-    currentModel
+    currentModel,
+    subscriptionUpdateModel
 }

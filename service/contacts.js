@@ -2,9 +2,9 @@ const { Contact } = require("../db/contactSchema");
 const { WrongParametrsError } = require("../helpers/error");
 
 const getAllContactsService = async (userId, page, limit, favorite) => {
-    const contacts = await Contact.find({ userId })
-        .find({ favorite: favorite })       
-        .skip(page - 1)
+    const contacts = await Contact
+        .find(favorite ? { userId, favorite: favorite } : { userId })       
+        .skip((page - 1) * limit)
         .limit(limit);
     return contacts;
 }

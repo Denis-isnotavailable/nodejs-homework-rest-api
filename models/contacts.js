@@ -11,9 +11,7 @@ const {
 const listContacts = async (req, res, next) => {
   try {
     const userId = req.user._id;
-    const { page, limit, favorite } = req.query;    
-    console.log("query ", page, limit);
-    console.log("favorite ", favorite);
+    const { page, limit, favorite } = req.query;
 
     const contacts = await getAllContactsService(userId, page, limit, favorite);   
     
