@@ -1,4 +1,5 @@
 const express = require('express');
+const { authMiddleware } = require('../../middelwares/authMiddleware');
 
 const {
   postDataValidation,
@@ -15,6 +16,8 @@ const {
 
 
 const router = express.Router();
+
+router.use(authMiddleware);
 
 router.get('/', listContacts);
 router.get('/:contactId', getContactById);
