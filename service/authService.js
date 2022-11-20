@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const gravatar = require('gravatar');
 const { User } = require("../db/userSchema");
 const { RegistrationError, NotAuthorizedError, WrongParametrsError } = require("../helpers/error");
 
@@ -10,7 +11,9 @@ const registration = async (email, password) => {
         throw new RegistrationError("Email in use");
     }
 
-    const newUser = new User({ email, password });    
+    const httpUrl = gravatar.url(email, {protocol: 'http'});
+
+    const newUser = new User({ email, password, avatarURL: httpUrl });
     await newUser.save()
     
     return {
@@ -58,11 +61,12 @@ const logout = async (authorization) => {
 }
 
 const current = async (id) => {
-    const user = await User.findOne({ id }); 
+    const user = await User.findOne({ _id: id }); 
 
     return {
         email: user.email,
-        subscription: user.subscription
+        subscription: user.subscription,
+        avatarURL: user.avatarURL
     };
 }
 
