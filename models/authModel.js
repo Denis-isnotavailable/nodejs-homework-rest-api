@@ -50,6 +50,7 @@ const userLogoutModel = async (req, res, next) => {
 // Get current 
 const currentModel = async (req, res, next) => {    
     const id = req.user._id;
+    console.log(id);
     try {        
         const user = await current(id);
                
