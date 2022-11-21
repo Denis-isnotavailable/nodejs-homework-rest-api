@@ -1,39 +1,9 @@
 /* eslint-disable no-undef */
 // const jest = require('jest');
 // const jwt = require('jsonwebtoken');
-const { registration } = require("../service/authService");
-const { User } = require("../db/userSchema");
+// const { registration } = require("../service/authService");
+// const { User } = require("../db/userSchema");
 
-describe('User registration test', () => {
-    it('should signup User by email and password', async () => {
-        const email = "denis.gmail.com";
-        const password = "123456";
-        const subscription = "starter";
-        // const createdAt = new Date().getTime();
-        // const id = "123456";
-        const status = '201 Created';
-
-        // const token = jwt.sign({
-        //         _id: id,
-        //         createdAt: createdAt
-        // }, process.env.JWT_SECRET);
-        
-        const user = {            
-            email: email, 
-            subscription: subscription
-        }
-
-
-                
-
-        jest.spyOn(User, 'update').mockImplementationOnce(async () => (user));
-
-        const result = await registration(email, password);
-
-        expect(result.status).toEqual(status);
-        expect(result.data).toEqual(user);
-    })
-});
 
 
 // const add = (a, b) => {
@@ -52,4 +22,41 @@ describe('User registration test', () => {
 //     expect(add(3, 2)).toBe(5);
 //   });
     
+// });
+
+// describe('User registration test', () => {
+//     it('should signup User by email and password', async () => {
+//         const email = "denis56.gmail.com";
+//         const password = "123456";
+//         const subscription = "starter";        
+//         const status = '201 Created';
+
+//         // const token = jwt.sign({
+//         //         _id: id,
+//         //         createdAt: createdAt
+//         // }, process.env.JWT_SECRET);
+        
+//         const user = {            
+//             email: email, 
+//             subscription: subscription
+//         }
+
+//         const expected = {
+//         status: '201 Created',      
+//         data: {
+//             user: {
+//                 email: email,
+//                 subscription: "starter"
+//             }
+//         },
+//     };
+
+
+//         jest.spyOn(User, 'findOne').mockImplementationOnce(async () => (user));
+
+//         // const result = await registration(email, password);        
+
+//         expect(await registration(email, password)).toBe(expected);
+//         // expect(result.data).toBe(user);
+//     })
 // });
