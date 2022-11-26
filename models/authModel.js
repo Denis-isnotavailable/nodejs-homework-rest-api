@@ -1,4 +1,11 @@
-const { registration, login, logout, current, subscriptionUpdate } = require("../service/authService");
+const {
+    registration,
+    login,
+    logout,
+    current,
+    subscriptionUpdate,
+    verification,
+    verifyRepeat } = require("../service/authService");
 
 
 // Registration
@@ -50,7 +57,7 @@ const userLogoutModel = async (req, res, next) => {
 // Get current 
 const currentModel = async (req, res, next) => {    
     const id = req.user._id;
-    console.log(id);
+    
     try {        
         const user = await current(id);
                
@@ -83,10 +90,40 @@ const subscriptionUpdateModel = async (req, res, next) => {
     }
 }
 
+// Verification
+const verifyModel = async (req, res, next) => {
+    const { verificationToken } = req.params;
+    try {
+        await verification(verificationToken);
+
+        res.json({
+            message: 'Verification successful'
+        });
+    } catch (e) {
+        next(e)
+    }
+}
+
+// Verify Repeat
+const verifyRepeatModel = async (req, res, next) => {
+    const { email } = req.body;
+    try {
+        await verifyRepeat(email);
+
+        res.json({
+            message: 'Verification email sent'
+        });
+    } catch (e) {
+        next(e);
+    }
+}
+
 module.exports = {
     userRegistrationModel,
     userLoginModel,
     userLogoutModel,
     currentModel,
-    subscriptionUpdateModel
+    subscriptionUpdateModel,
+    verifyModel,
+    verifyRepeatModel
 }
